@@ -1,44 +1,47 @@
 def caesar_cipher message, offset
-  message = message.downcase
-  msg_array = message.split("")
+  msg_array = message.split("").map(&:downcase)
   alphabet = ('a'..'z').to_a
   indexes = []
   new_message = []
-  msg_array.each do |msg_char|
-    if msg_char == " "
+
+  msg_array.each do |msg_char| #for each character in the message
+
+    if msg_char == " " #no need to loop through alphabet, just push character to indexes
       indexes << " "
+    elsif msg_char =~ /[[:punct:]]/ #no need to loop through alphabet, just push character to indexes
+      indexes << msg_char
     end
-    alphabet.each_with_index do |alpha_char, idx|
+
+    alphabet.each_with_index do |alpha_char, idx| #loop through the alphabet and push the index to indexes when there is a match
       if (msg_char == alpha_char)
         indexes << idx += 1
       end
     end
-  end
 
-  require "pry-byebug" ; binding.pry
-
-  p indexes
-
-  
+  end 
 
   new_idx = 0
-  new_letter = ''
+  
   indexes.each do |idx|
-    if idx == " "
+    new_letter = ''
+
+    if idx =~ /[[:punct:]]/ #no need to loop through alphabet, just push character to new_message
+      new_message << idx 
+    elsif idx == " " #no need to loop through alphabet, just push character to new_message
       new_message << " "
-    elsif
-      alphabet.each_with_index do |letter, alpha_idx|
-        new_idx = (idx + offset) % 26
-        new_letter = alphabet[new_idx - 1]
+    else
+      alphabet.each_with_index do |letter, alpha_idx| #loop through alphabet
+        new_idx = (idx + offset) % 26 #adds offset to index and wraps back around to a if the new index is greater than 26
+        new_letter = alphabet[new_idx - 1] 
       end
     end
-    
-    new_message << new_letter
+
+    new_message << new_letter   
+
   end
     
 p new_message.join('')
 
-
 end
 
-caesar_cipher "hello there", 15
+caesar_cipher "I'll get you, my pretty. And your little dog, too!!", 77
