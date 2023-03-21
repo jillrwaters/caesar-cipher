@@ -17,7 +17,7 @@ def caesar_cipher message, offset
     elsif code > 64 && code < 91
       new_code = code + offset
       if new_code > 90
-        new_code = (code % 26) + 90
+        new_code = (code % 26) + 65
         new_codes << new_code
       else
         new_codes << new_code
@@ -32,5 +32,7 @@ def caesar_cipher message, offset
 
 end
 
-p caesar_cipher("I'll get you my pretty, and your little dog too!!", 15)
+# p caesar_cipher("I'll get you my pretty, and your little dog too!!", 15)
+
+p caesar_cipher("What a string!", 5)
 
