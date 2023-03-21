@@ -1,6 +1,7 @@
 def caesar_cipher message, offset
-  msg_array = message.split("").map(&:downcase)
+  msg_array = message.split("").map
   alphabet = ('a'..'z').to_a
+  caps_alphabet = ('A'..'Z').to_a
   indexes = []
   new_message = []
 
@@ -10,13 +11,26 @@ def caesar_cipher message, offset
       indexes << " "
     elsif msg_char =~ /[[:punct:]]/ #no need to loop through alphabet, just push character to indexes
       indexes << msg_char
-    end
-
-    alphabet.each_with_index do |alpha_char, idx| #loop through the alphabet and push the index to indexes when there is a match
-      if (msg_char == alpha_char)
-        indexes << idx += 1
+    elsif msg_char =~ /[[:upper:]]/
+      caps_alphabet.each_with_index do |alpha_char, idx| #loop through the alphabet and push the index to indexes when there is a match
+        if (msg_char == alpha_char)
+          indexes << idx += 1
+          break
+        end
+      end  
+    else
+      alphabet.each_with_index do |alpha_char, idx| #loop through the alphabet and push the index to indexes when there is a match
+        if (msg_char == alpha_char)
+          indexes << idx += 1
+          break
+        end
       end
-    end
+    
+    
+    
+
+  end
+
 
   end 
 
@@ -29,11 +43,22 @@ def caesar_cipher message, offset
       new_message << idx 
     elsif idx == " " #no need to loop through alphabet, just push character to new_message
       new_message << " "
+    elsif caps_alphabet[idx] =~ /[[:upper:]]/
+      caps_alphabet.each_with_index do |letter, alpha_idx| #loop through alphabet
+        new_idx = (idx + offset) % 26 #adds offset to index and wraps back around to a if the new index is greater than 26
+        new_letter = caps_alphabet[new_idx - 1] 
+        break
+      end
+
     else
       alphabet.each_with_index do |letter, alpha_idx| #loop through alphabet
         new_idx = (idx + offset) % 26 #adds offset to index and wraps back around to a if the new index is greater than 26
-        new_letter = alphabet[new_idx - 1] 
+        new_letter = alphabet[new_idx - 1]
+        break
       end
+
+      
+    
     end
 
     new_message << new_letter   
