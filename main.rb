@@ -6,15 +6,12 @@ def caesar_cipher message, offset
   new_message = []
 
   msg_array.each do |msg_char| #for each character in the message
-
-    if msg_char == " " #no need to loop through alphabet, just push character to indexes
-      indexes << " "
-    elsif msg_char =~ /[[:punct:]]/ #no need to loop through alphabet, just push character to indexes
+    if msg_char =~ /[[:punct:]][[:blank:]]/ #no need to loop through alphabet, just push character to indexes
       indexes << msg_char
     elsif msg_char =~ /[[:upper:]]/
       caps_alphabet.each_with_index do |alpha_char, idx| #loop through the alphabet and push the index to indexes when there is a match
         if (msg_char == alpha_char)
-          indexes << idx += 1
+          indexes << (idx += 1).to_s
           break
         end
       end  
@@ -26,7 +23,7 @@ def caesar_cipher message, offset
         end
       end
     
-    
+    # require "pry-byebug" ; binding.pry
     
 
   end
@@ -39,11 +36,10 @@ def caesar_cipher message, offset
   indexes.each do |idx|
     new_letter = ''
 
-    if idx =~ /[[:punct:]]/ #no need to loop through alphabet, just push character to new_message
+    if idx =~ /[[:punct:]][[:blank:]]/ #no need to loop through alphabet, just push character to new_message
       new_message << idx 
-    elsif idx == " " #no need to loop through alphabet, just push character to new_message
-      new_message << " "
-    elsif caps_alphabet[idx] =~ /[[:upper:]]/
+    elsif idx.is_a?(String) && !(idx =~ /[[:punct:]][[:blank:]]/)
+      idx = idx.to_i
       caps_alphabet.each_with_index do |letter, alpha_idx| #loop through alphabet
         new_idx = (idx + offset) % 26 #adds offset to index and wraps back around to a if the new index is greater than 26
         new_letter = caps_alphabet[new_idx - 1] 
