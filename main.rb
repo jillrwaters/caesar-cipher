@@ -1,3 +1,5 @@
+# THIS CODE DOES NOT FULLY WORK. SEE main2.rb FOR PROPER RESULT.
+
 def caesar_cipher message, offset
   msg_array = message.split("").map
   alphabet = ('a'..'z').to_a
