@@ -6,25 +6,23 @@ def caesar_cipher message, offset
 
   codes.each do |code|
     new_code = 0
-    if code > 96 && code < 123
+
+    if code.between?(97,122)
       new_code = code + offset
       if new_code > 122
-        new_code = (code % 26) + 96
-        new_codes << new_code
-      else
-        new_codes << new_code
+        new_code = (new_code - 122) + 96
       end
-    elsif code > 64 && code < 91
+      new_codes << new_code
+    elsif code.between?(65,90)
       new_code = code + offset
       if new_code > 90
-        new_code = (code % 26) + 65
-        new_codes << new_code
-      else
-        new_codes << new_code
+        new_code = (new_code - 90) + 64
       end
+      new_codes << new_code
     else
       new_codes << code
     end
+    # new_codes << new_code
 
   end
 
